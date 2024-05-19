@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        Encurtador
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/images/web_server.png" alt="Encurtador" class="icon" />
+            <h1>
+                Encurtador
+            </h1>
+            <p>Consulta por data</p>
+        </div>
+        <div class="container">
+            
+            <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Url original</th>
+                  <th scope="col">Url Encurtada</th>
+                  <th scope="col">Data Criação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<resultado.length; i++) {%>
+                <tr>
+                  <td scope="row"><%= resultado[i].id %></td>
+                  <td><%= resultado[i].code %></td>
+                  <td><%= resultado[i].url %></td>
+                  
+                  <td><a href="<%= process.env.DOMAIN %><%= resultado[i].code %>" target="_blank"><%= process.env.DOMAIN %><%= resultado[i].code %></a></td>
+                  <td><script type="text/javascript">
+                    document.write(
+                      new Date("<%= resultado[i].createdAt %>").toLocaleDateString()
+                    );
+                    </script>
+                    
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+              </table>
+
+                
+                   
+          
+            <a href="/" class="btn btn-primary">Encurtar nova URL</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
