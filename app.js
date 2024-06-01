@@ -1,13 +1,45 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const swaggerjsdoc = require('swagger-jsdoc');
+const swaggerui = require('swagger-ui-express');
 
-var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
 
-var app = express();
+const indexRouter = require('./routes/index');
+const apiRouter = require('./routes/api');
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Encurtador de URL - Documentação da API",
+      version: "0.1.0",
+      description:
+        "Documentação do projeto encurtador de URL",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Julio Cesar Mazziero Pascoato",
+        url: process.env.DOMAIN,
+        email: "jpascoato@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: process.env.DOMAIN,
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const app = express();
+
+const spacs = swaggerjsdoc(options);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +52,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
+
+app.use('/api-docs', swaggerui.serve, swaggerui.setup(spacs))
+
 app.use('/', indexRouter);
 
 
@@ -38,6 +73,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 
 
