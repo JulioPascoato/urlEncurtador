@@ -15,21 +15,16 @@ router.post('/find', async (req, res) => {
   const date = req.body.date;
   console.log(date)
 
-  
+
   const resultado = await Link.findAll({
     where: sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', date),
-    //attributes: ['url']
+
   })
 
   if (!resultado) return res.sendStatus(404);
 
-  /* for (const data of resultado){
-    console.log(data.url)
-  }
-  */
+  res.render('find', { resultado: resultado });
 
-  res.render('find', {resultado: resultado});
-  
 })
 
 router.get('/:code/stats', async (req, res, next) => {
