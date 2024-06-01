@@ -29,7 +29,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.DOMAIN,
+        url: "https://url-encurtador-509077578a62.herokuapp.com/",
       },
     ],
   },
